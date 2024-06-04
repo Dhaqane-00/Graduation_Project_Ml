@@ -13,13 +13,13 @@ sc = joblib.load('StandardScaler.pkl')
 model = joblib.load('model.pkl')
 
 @app.route('/')
-def hello_world():
+def home():
     return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
     file = request.files['file']
-    file_path = "./files/" + file.filename
+    file_path = os.path.join('files', file.filename)
     file.save(file_path)
 
     try:
@@ -40,9 +40,9 @@ def predict():
         predictions = model.predict(transformed_data)
 
         # Determine the prediction labels
-        prediction_labels = ["Will Graduate" if pred == 1 else "Dropout" for pred in predictions]
+        input_data['Prediction'] = ["Will Graduate" if pred == 1 else "Dropout" for pred in predictions]
 
-        return render_template('index.html', prediction=prediction_labels)
+        return render_template('index.html', tables=[input_data.to_html(classes='data', header="true")], prediction=True)
     except Exception as e:
         return render_template('index.html', error=str(e))
 

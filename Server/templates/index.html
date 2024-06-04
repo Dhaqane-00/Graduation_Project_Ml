@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Model Prediction</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .data {
+            margin-top: 20px;
+        }
+        .data table {
+            width: 100%;
+        }
+        .data th, .data td {
+            text-align: center;
+            padding: 10px;
+        }
+        .data th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -21,11 +36,13 @@
 
     <div class="container mt-5">
         {% if prediction %}
-            <h2>Prediction</h2>
+            <h2>Prediction Results</h2>
             <div class="alert alert-success" role="alert">
-                {% for pred in prediction %}
-                    {{ pred }}<br>
-                {% endfor %}
+                <div class="data">
+                    {% for table in tables %}
+                        {{ table|safe }}
+                    {% endfor %}
+                </div>
             </div>
         {% endif %}
         {% if error %}
